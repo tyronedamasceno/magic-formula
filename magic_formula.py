@@ -4,11 +4,12 @@ from typing import List
 
 
 class Acao:
-    def __init__(self, ticker: str, ebit: str, pl: str, roe: str):
+    def __init__(self, ticker: str, ebit: str, pl: str, roe: str, liquidez: str):
         self.ticker = ticker
         self.ebit = self.parse_float(ebit)
         self.pl = self.parse_float(pl)
         self.roe = self.parse_float(roe)
+        self.liquidez = self.parse_float(liquidez)
 
     def parse_float(self, value: str) -> float:
         if value:
@@ -21,6 +22,7 @@ class MagicFormula:
     def run(self, acoes: List[Acao]):
         acoes = self.filter_positive_ebit(acoes)
         acoes = self.filter_pl_greater_than_5(acoes)
+        acoes = self.filter_liquidez(acoes)
         acoes_by_pl = self.order_by_pl(acoes)
         acoes_by_roe = self.order_by_roe(acoes)
         self.add_to_rank(acoes_by_pl)
@@ -33,6 +35,9 @@ class MagicFormula:
 
     def filter_pl_greater_than_5(self, acoes_list):
         return [acao for acao in acoes_list if acao.pl and acao.pl > 5]
+
+    def filter_liquidez(self, acoes_list):
+        return [acao for acao in acoes_list if acao.liquidez and acao.liquidez > 150000]
 
     def order_by_pl(self, acoes_list):
         return [acao.ticker for acao in sorted(acoes_list, key=lambda acao: acao.pl)]
@@ -58,7 +63,10 @@ f = open('acoes-list.csv')
 
 reader = csv.DictReader(f, delimiter=';')
 acoes = [
-    Acao(row['TICKER'], row['MARGEM EBIT'], row['P/L'], row['ROE'])
+    Acao(
+        row['TICKER'], row['MARGEM EBIT'], row['P/L'],
+        row['ROE'], row[' LIQUIDEZ MEDIA DIARIA']
+    )
     for row in reader
 ]
 
