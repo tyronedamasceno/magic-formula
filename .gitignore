@@ -129,4 +129,7 @@ dmypy.json
 .pyre/
 
 acoes-list.csv
+fiis-list.csv
 resultado.txt
+resultado-fiis.txt
+
