@@ -39,7 +39,7 @@ class MagicFormula:
         return [fii for fii in fiis_list if fii.liquidez and fii.liquidez > 200000]
 
     def order_by_dy(self, fiis_list):
-        return [fii.ticker for fii in sorted(fiis_list, key=lambda fii: -fii.pl)]
+        return [fii.ticker for fii in sorted(fiis_list, key=lambda fii: -fii.dy)]
     
     def order_by_pvp(self, fiis_list):
         return [fii.ticker for fii in sorted(fiis_list, key=lambda fii: fii.pvp)]
@@ -64,7 +64,7 @@ reader = csv.DictReader(f, delimiter=';')
 fiis = [
     FII(
         row['TICKER'], row['DY'], row['P/VP'],
-        row[' LIQUIDEZ MEDIA DIARIA']
+        row['LIQUIDEZ MEDIA DIARIA']
     )
     for row in reader
 ]
