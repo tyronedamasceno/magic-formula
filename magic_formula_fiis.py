@@ -27,7 +27,8 @@ class MagicFormula:
         self.add_to_rank(fiis_by_dy)
         self.add_to_rank(fiis_by_pvp)
         best_fiis = self.get_best_fiis()
-        self.print_and_write_file(best_fiis)
+        keep_fiis = self.get_keep_fiis()
+        self.print_and_write_file(best_fiis, keep_fiis)
 
     def filter_positive_pvp(self, fiis_list):
         return [fii for fii in fiis_list if fii.pvp and fii.pvp > 0]
@@ -51,10 +52,20 @@ class MagicFormula:
     def get_best_fiis(self):
         return sorted(self.fiis_rank.items(), key=lambda par: par[1])[:15]
 
-    def print_and_write_file(self, fiis_list):
-        print(fiis_list)
+    def get_keep_fiis(self):
+        return sorted(self.fiis_rank.items(), key=lambda par: par[1])[15:30]
+
+    def print_and_write_file(self, best_fiis, keep_fiis):
+        print(best_fiis)
+        print('\n')
+        print(keep_fiis)
+
         with open('resultado-fiis.txt', 'w') as f:
-            for ticker, value in fiis_list:
+            f.write('To buy: \n')
+            for ticker, value in best_fiis:
+                f.write(ticker + '\n')
+            f.write('\nTo keep: \n')
+            for ticker, value in keep_fiis:
                 f.write(ticker + '\n')
 
 
