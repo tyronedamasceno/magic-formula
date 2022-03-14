@@ -37,7 +37,7 @@ class MagicFormula:
         return [fii for fii in fiis_list if fii.dy and fii.dy > 0]
 
     def filter_liquidez(self, fiis_list):
-        return [fii for fii in fiis_list if fii.liquidez and fii.liquidez > 200000]
+        return [fii for fii in fiis_list if fii.liquidez and fii.liquidez > 100000]
 
     def order_by_dy(self, fiis_list):
         return [fii.ticker for fii in sorted(fiis_list, key=lambda fii: -fii.dy)]
