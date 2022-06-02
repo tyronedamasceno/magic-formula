@@ -28,7 +28,8 @@ class MagicFormula:
         self.add_to_rank(acoes_by_pl)
         self.add_to_rank(acoes_by_roe)
         best_acoes = self.get_best_acoes()
-        self.print_and_write_file(best_acoes)
+        keep_acoes = self.get_keep_acoes()
+        self.print_and_write_file(best_acoes, keep_acoes)
 
     def filter_positive_ebit(self, acoes_list):
         return [acao for acao in acoes_list if acao.ebit and acao.ebit > 0]
@@ -50,12 +51,20 @@ class MagicFormula:
             self.acoes_rank[ticker] += idx
 
     def get_best_acoes(self):
-        return sorted(self.acoes_rank.items(), key=lambda par: par[1])[:25]
+        return sorted(self.acoes_rank.items(), key=lambda par: par[1])[:20]
 
-    def print_and_write_file(self, acoes_list):
+    def get_keep_acoes(self):
+        return sorted(self.acoes_rank.items(), key=lambda par: par[1])[20:40]
+
+    def print_and_write_file(self, acoes_list, keep_list):
         print(acoes_list)
+        print('\n')
+        print(keep_list)
         with open('resultado.txt', 'w') as f:
             for ticker, value in acoes_list:
+                f.write(ticker + '\n')
+            f.write('\nTo keep: \n')
+            for ticker, value in keep_list:
                 f.write(ticker + '\n')
 
 
