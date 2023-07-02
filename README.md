@@ -21,4 +21,3 @@ Uma forma de aplica a "fórmula mágica" de greenblat em ações da bolsa brasil
 3. Rode o comando `python magic_formula_fiis.py`
 
 4. A lista dos 15 FII melhores rankeados será printada no console e escrita no arquivo **resultado-fiis.txt**
-
